@@ -37,6 +37,8 @@ python examples/signal-field/package_dotlottie.py
 node examples/signal-field/model.test.mjs
 ```
 
+To evaluate low-cost idle loops for an AI-generated mascot still, use the [Generated mascot motion skill](skills/generated-mascot-motion/SKILL.md) and its scripts in `tools/mascot/`: an image-to-video loop on a chroma frame (keyed to transparent WebM) and a frame-swap Lottie built from aligned image edits. Its [routes and costs](skills/generated-mascot-motion/references/routes-and-costs.md) record a measured comparison. Generation calls need your own provider keys and are billed by those providers.
+
 For a new codebase, use the portable [Create app motion skill](skills/create-app-motion/SKILL.md). Copy that skill folder into your agent's skills directory, then ask it to adapt one real state or input in your app. It guides source inspection, route choice, original art, still and reduced motion behavior, and target-renderer checks. These examples are starting points, not universal interaction patterns. Browser playback and video decoding do not establish acceptance in a native renderer or on a device.
 
 ## Licensing and attribution
