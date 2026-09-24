@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stacked Alpha Player</title>
+<style>
+  :root { --bg: #f4efe6; --stage: #e7dfd2; --fg: #2b2f38; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #1f2229; --stage: #3a3f4a; --fg: #eceae4; } }
+  body { margin: 0; padding: 16px; background: var(--bg); color: var(--fg); font: 14px/1.4 system-ui, sans-serif; }
+  canvas { display: block; width: min(360px, 100%); aspect-ratio: 1; background: var(--stage); border-radius: 12px; }
+</style>
+</head>
+<body>
+<!-- Plays a stacked-alpha MP4 (color on top, alpha as luma below) with transparency in any browser.
+     Usage: stacked-player.html?src=name-480-stacked.mp4 (served over http, same origin). -->
+<canvas id="out" aria-label="Animated mascot" role="img"></canvas>
+<p id="msg"></p>
+<script>
+  const src = new URLSearchParams(location.search).get("src");
+  const out = document.getElementById("out");
+  const msg = document.getElementById("msg");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!src) msg.textContent = "Add ?src=<stacked.mp4>";
+  const video = Object.assign(document.createElement("video"), { src, muted: true, loop: true, playsInline: true, crossOrigin: "anonymous" });
+  const work = document.createElement("canvas");
+  const wx = work.getContext("2d", { willReadFrequently: true });
+  const ox = out.getContext("2d");
+  function draw() {
+    const w = video.videoWidth, h = video.videoHeight / 2;
+    if (w && h) {
+      if (out.width !== w) { out.width = work.width = w; out.height = h; work.height = h * 2; }
+      wx.drawImage(video, 0, 0);
+      const color = wx.getImageData(0, 0, w, h);
+      const alpha = wx.getImageData(0, h, w, h).data;
+      const c = color.data;
+      for (let i = 0; i < c.length; i += 4) {
+        const a = alpha[i];
+        c[i + 3] = a;
+        if (a) { const k = 255 / a; c[i] = Math.min(255, c[i] * k); c[i + 1] = Math.min(255, c[i + 1] * k); c[i + 2] = Math.min(255, c[i + 2] * k); }
+      }
+      ox.putImageData(color, 0, 0);
+    }
+    if (!video.paused) requestAnimationFrame(draw);
+  }
+  video.addEventListener("loadeddata", () => { if (reduce) { draw(); } else { video.play().then(draw); } });
+  video.addEventListener("error", () => { msg.textContent = "Could not load " + src; });
+  out.addEventListener("click", () => { if (video.paused) video.play().then(draw); else video.pause(); });
+</script>
+</body>
+</html>
