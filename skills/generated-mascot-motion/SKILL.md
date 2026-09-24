@@ -15,7 +15,8 @@ Before generating anything, confirm in one sentence who approved the character c
 
 Follow [the stage questions](references/stage-questions.md): start, style, character card, action, review, export. Ask only what changes the next step, offer defaults, and confirm cost before each paid call.
 
-- **Character card.** Record name, personality, never-traits, constant details, colors and context in [a character card](templates/character.json) and reuse it in every prompt. Optional front, side and back angles improve consistency across later poses.
+- **Concept and style first.** Before any animation spend, propose concepts from the product's purpose, show a style shortlist from [the style menu](references/styles.md), and let the person pick from at least two generated candidates. See [prompt patterns](references/prompt-patterns.md).
+- **Character card.** Record name, personality, never-traits, constant details, colors and context in [a character card](templates/character.json) and reuse it in every prompt as a preservation clause ("… while preserving the {constants}"). Optional side, back and three-quarter-back angles improve consistency; discard any that copy the front.
 - **Actions as prompt pairs.** Each action has a pose-image prompt (the still it starts from) and an animation prompt (only the motion wanted), plus loop, duration and sticker choices. Suggest short, character-specific action names from the personality.
 
 ## Choose a route

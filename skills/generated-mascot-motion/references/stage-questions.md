@@ -5,14 +5,15 @@ Ask only the questions whose answers change what you do next, and offer a sensib
 ## 1. Start
 
 - Is there an existing character (upload or link), or are we creating one from a description?
-- If creating: a working name, and a one-sentence description (species or form, mood, what it is for)?
+- If creating: what is the mascot for? Offer six concepts from that purpose ([prompt patterns](prompt-patterns.md) §1), or take their own name and description.
 - Is there a website, brand guide or existing app to take cues from?
 - One character, or several at once?
 - Budget cap for this session, and cheapest-model-first unless told otherwise?
 
 ## 2. Style
 
-- Which style: flat, cartoon, kawaii or cute, pastel, soft 3D or clay, watercolor, sketch, line art, pixel art? Offer two or three that suit the brief and say which route each suits (flat → Lottie; soft 3D → video).
+- Which style? Show a shortlist of four to six from [the style menu](styles.md) that suit the brief, with the route each suits (flat → Lottie; clay or 3D → video), and the full menu on request.
+- Offer to refine the description as a side-by-side suggestion before generating.
 - Should it be a sibling of an existing character? If so, use that image as the style reference.
 - Generate two variants per style and let the person pick before any animation spend.
 
@@ -24,13 +25,14 @@ Write the answers into [the character card](../templates/character.json) and reu
 - Brand colors to echo, and colors to avoid.
 - Distinguishing details that must stay constant (markings, accessories, proportions).
 - Anything the image cannot show but prompts should respect (audience, tone, cultural or religious sensitivities).
-- Generate front, side and back angles now? They improve consistency across later poses (about one image each).
+- Generate side, back and three-quarter-back angles now? They improve consistency across later poses (about one image each). Discard any that merely copy the front.
+- Confirm the extracted palette and the preservation clause (the constants appended to every prompt).
 
 ## 4. Action
 
 For each action:
 
-- Name (short, character-specific; suggest five to ten from the personality, such as a soft welcome, a contented sway, a curious side step).
+- Name: offer six short, character-specific suggestions from the personality and purpose, with a refresh and a custom option.
 - Kind: still pose, idle loop, or one-shot reaction?
 - Pose-image prompt: the still the motion starts from.
 - Animation prompt: only the motion wanted, ending with "nothing else appears or moves".

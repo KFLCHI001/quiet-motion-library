@@ -18,6 +18,11 @@ Measured on 24 September 2026 with one original test character (a small lamb) in
 | Dove clay idle re-roll, seed 11 | same | ~$0.13 | Prompt described only breathing and a blink, "nothing else appears"; clean loop |
 | Dove flat Lottie with blinks | local keyframes | ~$0.02 edit | 4s, 302 KB; blink frame aligned within 1 px |
 
+
+## Hosted tool comparison
+
+A hosted mascot tool reviewed on the same day priced a 5-second standard animation at 11 credits (2 per second plus 1 for the pose image), a pose image at 1, three extra angles at 3, and a sticker at 1. Its advantage was the guided workflow, not the model: concept ideas from the product's purpose, a style menu, description refinement as a suggestion, a palette and style card extracted from the chosen image, a preservation clause on every prompt, character-specific action suggestions, and multi-format export. Its angles were uneven (the back view was new; side and three-quarter views were near-copies of the front). This skill reproduces that workflow with per-call pricing.
+
 ## Free and included allowances
 
 - ChatGPT and Gemini/Flow subscriptions include image and video generation with unpublished or credit-based limits; outputs must be downloaded by hand and prompts are not recorded automatically.
