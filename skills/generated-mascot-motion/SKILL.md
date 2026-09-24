@@ -1,6 +1,6 @@
 ---
 name: generated-mascot-motion
-description: Produce looping idle motion for an AI-generated mascot still, choosing between an easy AI-video route (image-to-video on a chroma background, keyed to transparent WebM) and a cheapest-practical Lottie route (image-edit frame swaps plus keyframed transforms). Use when a team has a mascot image and wants low-cost idle or reaction loops to evaluate; not for interactive multi-state characters (see create-app-motion) or for deciding where a mascot belongs in a product.
+description: Produce looping idle motion for an AI-generated mascot still, choosing between an easy AI-video route (image-to-video on a chroma background, exported as WebM, stacked-alpha MP4 and, on macOS, HEVC-with-alpha) and a cheapest-practical Lottie route (image-edit frame swaps plus keyframed transforms). Use when a team has a mascot image and wants low-cost idle or reaction loops to evaluate; not for interactive multi-state characters (see create-app-motion) or for deciding where a mascot belongs in a product.
 ---
 
 # Generated mascot motion
@@ -10,6 +10,13 @@ Turn one approved mascot still into short, seamless loops cheaply, record what e
 ## Gate: character and placement
 
 Before generating anything, confirm in one sentence who approved the character concept and what the loops are for (marketing test, design review, a named screen). If the request is "add a mascot to the app", stop and ask for the product decision first. Keep every run inside a stated budget and log it.
+
+## Work in stages and ask as you go
+
+Follow [the stage questions](references/stage-questions.md): start, style, character card, action, review, export. Ask only what changes the next step, offer defaults, and confirm cost before each paid call.
+
+- **Character card.** Record name, personality, never-traits, constant details, colors and context in [a character card](templates/character.json) and reuse it in every prompt. Optional front, side and back angles improve consistency across later poses.
+- **Actions as prompt pairs.** Each action has a pose-image prompt (the still it starts from) and an animation prompt (only the motion wanted), plus loop, duration and sticker choices. Suggest short, character-specific action names from the personality.
 
 ## Choose a route
 
@@ -40,6 +47,10 @@ Transparent WebM does not display reliably everywhere: some Chromium-based webvi
 2. Make each expression change as an **edit of the same image** (for example eyes closed) so the frames align. `node tools/mascot/edit-frame.mjs mascot.png blink.png "<edit prompt>"` (OpenAI images edit; needs `OPENAI_API_KEY`). Verify alignment by comparing alpha bounding boxes; within 1–2 px is fine.
 3. Build: `node tools/mascot/lottie-idle.mjs mascot.png idle.json 512 blink.png`. Breathing, a slight bob and a small tilt are keyframed; the blink layer is shown for four frames twice per loop with hold keyframes.
 4. Preview in `lottie-web`, seek to a blink frame, and check file size. Compress the PNGs before embedding if size matters.
+
+## Export and playback
+
+`node tools/mascot/export.mjs green.mp4 out/ name 480,240,128` writes, per size, WebM with alpha, a stacked-alpha MP4 (color over alpha; plays anywhere with a shader or `tools/mascot/stacked-player.html`), HEVC-with-alpha `.mov` when run on macOS, a transparent poster/sticker PNG, and `manifest.json`. Audio is dropped. Choose formats per platform with [the playback guide](references/playback.md).
 
 ## Record
 

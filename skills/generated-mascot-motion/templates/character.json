@@ -1,0 +1,23 @@
+{
+  "name": "Example Lamb",
+  "description": "A small, gentle lamb mascot with soft cream wool and a warm expression.",
+  "style": "flat vector illustration, clean rounded shapes, limited warm palette",
+  "personality": ["gentle", "calm", "warm"],
+  "never": ["scary", "sarcastic", "hyperactive"],
+  "constants": ["cream wool", "brown eyes with a highlight", "blush cheeks", "thin gold band above each hoof"],
+  "colors": { "echo": ["#F4EAD8", "#C9A24A"], "avoid": ["neon", "pure black outlines"] },
+  "context": "For a calm reflective app; keep motion small and quiet.",
+  "references": ["refs/front.png"],
+  "angles": { "front": null, "side": null, "back": null },
+  "actions": [
+    {
+      "name": "Contented Breath",
+      "kind": "idle-loop",
+      "image_prompt": "Standing in the reference pose, relaxed, eyes open, mouth closed.",
+      "animation_prompt": "Slow gentle breathing and one soft blink, then back to the exact starting pose. Nothing else appears or moves.",
+      "loop": true,
+      "duration_s": 5,
+      "sticker": false
+    }
+  ]
+}
