@@ -20,7 +20,7 @@
     .controls p { color: #52615b; font-size: .88rem; }
     .buttons { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
     button { min-height: 42px; border: 1px solid #c9d1c7; border-radius: 10px; background: white; color: #29483d; font: inherit; font-size: .86rem; cursor: pointer; }
-    button:hover:not(:disabled) { background: #f1f5ef; }
+    button:hover:not(:disabled):not([aria-pressed="true"]) { background: #f1f5ef; }
     button:disabled { cursor: default; opacity: .55; }
     button[aria-pressed="true"] { background: #2f6352; border-color: #2f6352; color: white; }
     button:focus-visible, input:focus-visible { outline: 3px solid #9b6f31; outline-offset: 2px; }

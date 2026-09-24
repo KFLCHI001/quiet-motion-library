@@ -1,4 +1,4 @@
-import { signalField } from './model.mjs';
+import { signalField } from './model.js';
 
 const slider = document.querySelector('#level');
 const label = document.querySelector('#level-value');

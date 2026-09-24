@@ -2,7 +2,7 @@
 // It uses only React and React Native; the host provides its real numeric input.
 import React, { useEffect, useState } from 'react';
 import { AccessibilityInfo, AppState, Pressable, Text, View } from 'react-native';
-import { HEIGHT, WIDTH, signalField } from './model.mjs';
+import { HEIGHT, WIDTH, signalField } from './model.js';
 
 export function SignalFieldView({ value, size = 300, active = true }) {
   const [settledValue, setSettledValue] = useState(value);

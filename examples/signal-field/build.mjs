@@ -1,5 +1,5 @@
 import { writeFileSync } from 'node:fs';
-import { signalField, WIDTH, HEIGHT } from './model.mjs';
+import { signalField, WIDTH, HEIGHT } from './model.js';
 
 const frames = [signalField(0), signalField(0.5), signalField(1)];
 const times = [0, 60, 120];

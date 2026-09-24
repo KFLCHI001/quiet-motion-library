@@ -4,11 +4,11 @@ An original, generic demonstration of continuous input driving geometry, color, 
 
 ## Integration contract
 
-`signalField(value)` in `model.mjs` returns the same deterministic rectangles for the same input. It clamps nonfinite or out-of-range values and has no clock, storage, network, or telemetry. A host owns the actual input, label, value announcement, persistence decision, and meaning. Use `tiles` for the large view or `motif` for a smaller indicator. Do not treat the art as the sole status.
+`signalField(value, theme)` in `model.js` returns the same deterministic rectangles for the same input. It clamps nonfinite or out-of-range values and has no clock, storage, network, or telemetry. `resolveTheme({ background, rail, low, high })` validates host `#rrggbb` colors once; the theme changes color only, never geometry. `signalTile(value, index, theme)` returns one tile for per-tile renderers. The functions carry `'worklet'` directives so Reanimated can run them on the UI thread. The model is a `.js` ES module because Expo's default Metro resolver does not include `.mjs`. A host owns the actual input, label, value announcement, persistence decision, and meaning. Use `tiles` for the large view or `motif` for a smaller indicator. Do not treat the art as the sole status.
 
 `index.html` is a browser proof with a keyboard and assistive-technology range input. The SVG is hidden from accessibility because the adjacent label and numeric value carry the meaning. `still.svg` is shown before JavaScript runs, on script failure, and as an asset fallback. Pointer updates are coalesced to one `requestAnimationFrame`; hidden pages request no new frames and repaint when visible. Reduced Motion removes the color transition; the field always settles directly to the selected value. There is no idle loop.
 
-`react-native-example.jsx` maps the same model to core React Native `View`s. The demo's buttons and adjustable accessibility action change the number in 10% steps; replace those with the host app's real control. This uses React and React Native only, which matches the existing Expo app stacks that motivated the example. It has no bundled animation or UI dependency. Its `AppState` listener and Reduce Motion query are examples of lifecycle and accessibility handling. Since the view schedules no animation, it holds a complete still state when inactive or when Reduce Motion is enabled. No native build, device, screen-reader, or performance acceptance has been run for this adapter.
+`react-native-example.jsx` maps the same model to core React Native `View`s. The demo's buttons and adjustable accessibility action change the number in 10% steps; replace those with the host app's real control. This uses React and React Native only, which matches the existing Expo app stacks that motivated the example. It has no bundled animation or UI dependency. For gesture-driven input on the UI thread, use [`native/SignalFieldReanimated.jsx`](../../native/SignalFieldReanimated.jsx), which reads a Reanimated shared value. Its `AppState` listener and Reduce Motion query are examples of lifecycle and accessibility handling. Since the view schedules no animation, it holds a complete still state when inactive or when Reduce Motion is enabled. No native build, device, screen-reader, or performance acceptance has been run for this adapter.
 
 ## Optional Lottie companion
 
@@ -25,4 +25,4 @@ node examples/signal-field/model.test.mjs
 python -m http.server 8000 --bind 127.0.0.1
 ```
 
-Open `http://127.0.0.1:8000/examples/signal-field/`. The browser preview imports only local files. The static SVG and both Lottie formats are original outputs from `model.mjs`.
+Open `http://127.0.0.1:8000/examples/signal-field/`. The browser preview imports only local files. The static SVG and both Lottie formats are original outputs from `model.js`.
