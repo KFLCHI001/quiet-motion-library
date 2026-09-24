@@ -12,5 +12,6 @@ with ZipFile(ROOT / "signal-field.lottie", "w") as archive:
         # Stored, not deflated: compressed bytes differ between zlib builds, which breaks byte-reproducibility.
         info.compress_type = ZIP_STORED
         info.external_attr = 0o644 << 16
+        info.create_system = 3  # Unix; Python defaults to 0 on Windows, which changes the bytes.
         archive.writestr(info, content)
 print("signal field dotLottie written")
