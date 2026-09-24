@@ -28,11 +28,11 @@ Start with the cheapest model tier and escalate only after a person rejects the 
 1. Get a transparent PNG/WebP of the mascot (an image model with transparent-background output avoids a matting step).
 2. Composite it on a flat chroma green (`#00B140`) **at the output aspect ratio**. Video models stretch a square image to fill 16:9, so pad instead:
    `ffmpeg -f lavfi -i color=c=0x00B140:s=1280x720 -i mascot.png -filter_complex "[1]scale=-1:680[m];[0][m]overlay=(W-w)/2:(H-h)/2:format=auto" -frames:v 1 mascot-green.png`
-3. Generate with the **same image as first and last frame** so the clip closes as a loop: `node tools/mascot/idle-loop.mjs mascot-green.png out.mp4 "<prompt>"` (fal queue API; needs `FAL_KEY`). Prompt for small, calm actions and name what must not happen: closed mouth, no particles, static camera, background unchanged.
+3. Generate with the **same image as first and last frame** so the clip closes as a loop: `node tools/mascot/idle-loop.mjs mascot-green.png out.mp4 "<prompt>"` (fal queue API; needs `FAL_KEY`). Prompt for small, calm actions and describe only what should happen, ending with "nothing else appears or moves", a static camera and an unchanged background. Naming an unwanted action ("no sneezing", "no feathers") can prime the model to add it.
 4. Key and encode: `ffmpeg -i out.mp4 -vf "chromakey=0x00B140:0.13:0.06,despill=type=green" -c:v libvpx-vp9 -pix_fmt yuva420p -b:v 0 -crf 32 -an out.webm`. Crop pillarboxing first if the model added it.
-5. Check: a contact sheet over a dark background (fringe), first-versus-last frame difference (loop seam), and every invented action. Re-rolling the same image rarely removes a model's habitual action; change the image or route instead.
+5. Check: a contact sheet over a dark background (fringe), first-versus-last frame difference (loop seam), and every invented action. If an invented action appears, re-roll once with a new seed and a prompt that omits the action entirely; if it persists, change the image or route.
 
-For iOS alpha video, WebM is not native; plan HEVC-with-alpha (encode on macOS), a PNG sequence, or the Lottie route.
+Transparent WebM does not display reliably everywhere: some Chromium-based webviews decode the frames but composite the video blank. For review pages, draw frames to a `<canvas>` with `drawImage` on each animation frame. For iOS alpha video, WebM is not native; plan HEVC-with-alpha (encode on macOS), a PNG sequence, or the Lottie route.
 
 ## Cheapest practical route: frame-swap Lottie
 

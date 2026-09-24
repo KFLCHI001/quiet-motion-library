@@ -13,6 +13,10 @@ Measured on 24 September 2026 with one original test character (a small lamb) in
 | Clay idle, 16:9 padded input | same | 10 credits | Proportions held; first/last frame mean difference < 1/255; 550 KB WebM |
 | Eyes-closed edit of flat still | OpenAI `gpt-image-2.5-sunburst` edit, medium | ~$0.02 | Aligned within 1 px of the original |
 | Flat idle Lottie with blinks | local keyframes (`lottie-idle.mjs`) | $0 | 4s, 30 fps, clean loop; 506 KB with two embedded 512 px PNGs |
+| Second character (a dove), designed by editing the lamb stills | OpenAI `gpt-image-2.5-sunburst` edit ×8 | ~$0.24 | First round read as chicks (head tuft, stubby body); naming dove anatomy (smooth crestless head, tapered wings and tail) fixed it |
+| Dove clay idle, 5s 480p | fal H3 Max Turbo | ~$0.13 | Floating feathers appeared although the prompt said "no feathers falling" |
+| Dove clay idle re-roll, seed 11 | same | ~$0.13 | Prompt described only breathing and a blink, "nothing else appears"; clean loop |
+| Dove flat Lottie with blinks | local keyframes | ~$0.02 edit | 4s, 302 KB; blink frame aligned within 1 px |
 
 ## Free and included allowances
 
