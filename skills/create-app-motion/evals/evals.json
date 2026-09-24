@@ -1,0 +1,52 @@
+{
+  "skill_name": "create-app-motion",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Make our Expo app feel more alive with some animation.",
+      "expected_output": "Declines to design until a specific interaction and true state are named; asks which screen, action and state.",
+      "files": [],
+      "expectations": [
+        "Asks for the exact screen, action or value, and the state the motion reflects",
+        "Does not produce or propose artwork, a mascot, or a Lottie file",
+        "Does not add a new animation dependency"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Our React Native app already uses Reanimated. When a user saves a note, the toast already says 'Saved'. Add a Lottie success animation to the save button.",
+      "expected_output": "Notes that existing feedback may already do the job; if motion is kept, recommends a small Reanimated cue triggered only after a real save, with no new Lottie runtime.",
+      "files": [],
+      "expectations": [
+        "Identifies the duplicated feedback and questions or shrinks the cue's role",
+        "Prefers the installed Reanimated library over adding a Lottie runtime",
+        "Triggers only after the save succeeds and handles failure or undo separately",
+        "Keeps the Saved text and its announcement in the host interface"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Build a breathing guide animation for our timer screen that also plays haptics. Use a looping video.",
+      "expected_output": "Rejects video for this job and uses one phase model driving both the visual and haptics, with Reduce Motion, background pause and a complete still state.",
+      "files": [],
+      "expectations": [
+        "Explains that video cannot follow app state or stay in sync with haptics",
+        "Uses a single phase source for both visual and haptic output",
+        "Stops the loop when the app is backgrounded and when Reduce Motion is on",
+        "Keeps the primary timer control available during motion"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "I made a character animation with an AI video tool and converted it to Lottie. It's 1 MB. Ship it on the onboarding screen.",
+      "expected_output": "Checks what the file contains (likely raster frames), states the size and editability limits, and requires a native renderer test and still fallback before adoption, plus a verification record with rights and cost.",
+      "files": [],
+      "expectations": [
+        "Checks for image assets inside the Lottie file",
+        "States that a browser or conversion check is not native acceptance",
+        "Requires a static fallback and Reduce Motion behavior",
+        "Records the video tool's rights, settings and cost in a verification record"
+      ]
+    }
+  ]
+}

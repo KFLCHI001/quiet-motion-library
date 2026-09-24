@@ -8,6 +8,8 @@ Two original one-shot vector cues, one layered character scene, and one numeric-
 | [Review draft](assets/review-draft/) | Transition from a processing frame to a draft that needs human review | 9 frames at 30 fps (300 ms) | SVG source and still, Lottie JSON |
 | [Character scene](examples/character-scene/) | Explore a five-state character and small pointer-linked depth scene | Interruptible state changes, quiet idle loop; optional six-second video render | Single layered SVG, browser controller, still poster, render script, MP4 test |
 | [Signal field](examples/signal-field/) | Explore a generic numeric input with no health or product meaning | Direct, reversible changes to separate tiles | Pure model, browser control, still SVG, React Native sample, optional Lottie/dotLottie companions |
+| [Native adapters](native/) | Reanimated versions of the kept cue and signal field, plus a Reduce Motion and lifecycle hook | UI-thread tweens and input-driven styles | `KeptCue.jsx`, `SignalFieldReanimated.jsx`, `useMotionPolicy.js`, pure policy test |
+| [Models](models/) | Paced cycle (breathing, pacing) and stage stepping for any ordered set | Level and cue events from elapsed time; pose from a continuous position | `paced-cycle.js`, `stage-step.js`, tests; `native/usePacedCycle.js` drives the cycle from one Reanimated frame clock |
 
 These examples are visual cues. The host application owns the state transition, wording, accessibility announcement, and next action. Show the saved cue only after a real save succeeds; show the draft cue only when the draft is actually ready. A partial or failed operation should use its own state. Motion must never block the next action or imply that content was verified.
 
@@ -28,24 +30,24 @@ The [character scene guide](examples/character-scene/README.md) explains its sin
 The [signal field guide](examples/signal-field/README.md) explains its numeric model, browser and React Native renderers, static fallback, and optional host-scrubbed Lottie exports. Its [source and publication record](examples/signal-field/SOURCE-AND-PUBLICATION.md) names the factual Apple reference and the visual changes that keep this public example distinct. No private reference media was copied.
 
 ```sh
-python tools/build_library.py
-python tools/validate.py
-node tools/token-bind.test.mjs
-node examples/character-scene/motion.test.mjs
-node examples/signal-field/build.mjs
-python examples/signal-field/package_dotlottie.py
-node examples/signal-field/model.test.mjs
+npm ci
+npm run build   # regenerates every export; outputs are byte-reproducible
+npm test        # structure, token, scene, model, policy and native bundle checks
 ```
+
+CI runs the same build and fails if any committed export differs, then runs the tests. The native check bundles the React Native sources with Expo's default Metro extensions and leaves React, React Native and Reanimated external. It proves syntax and imports, not native rendering.
 
 To evaluate low-cost idle loops for an AI-generated mascot still, use the [Generated mascot motion skill](skills/generated-mascot-motion/SKILL.md) and its scripts in `tools/mascot/`: an image-to-video loop on a chroma frame (keyed to transparent WebM) and a frame-swap Lottie built from aligned image edits. Its [routes and costs](skills/generated-mascot-motion/references/routes-and-costs.md) record a measured comparison. Generation calls need your own provider keys and are billed by those providers.
 
 For a new codebase, use the portable [Create app motion skill](skills/create-app-motion/SKILL.md). Copy that skill folder into your agent's skills directory, then ask it to adapt one real state or input in your app. It guides source inspection, route choice, original art, still and reduced motion behavior, and target-renderer checks. These examples are starting points, not universal interaction patterns. Browser playback and video decoding do not establish acceptance in a native renderer or on a device.
 
+**Verification level.** The Lottie and dotLottie files are browser-verified only (`lottie-web` 5.13.0, `dotlottie-web` 0.80). The native adapters are source-verified: they bundle, and Reanimated 4.5.1's worklet plugin compiles them. None has yet run in a React Native development build or on a device. See [VERIFICATION.md](VERIFICATION.md).
+
 ## Licensing and attribution
 
 - `assets/**/*.svg`, `assets/**/*.lottie.json`, and `examples/character-scene/scene.svg`, `scene-poster.png`, and `scene-loop.mp4`: **Creative Commons Attribution 4.0 International (CC BY 4.0)**, © 2026 KFLCHI001. See [full CC BY 4.0 text](LICENSE-CC-BY-4.0.txt). Credit: “Quiet Motion Library artwork by KFLCHI001, CC BY 4.0,” link to this repository and the license, and indicate changes when applicable.
 - `examples/signal-field/still.svg`, `signal-field.json`, and `signal-field.lottie`: **CC BY 4.0**, © 2026 KFLCHI001, with the same credit and change notice.
-- `tools/`, `skills/`, `preview/index.html`, `assets/bookmark-kept/tokens.mjs`, `examples/character-scene/` HTML, JavaScript, Python and render requirements, `examples/signal-field/` HTML, JavaScript, JSX, Python and documentation, repository documentation, and configuration: **MIT**, © 2026 KFLCHI001. See [full MIT text](LICENSE-MIT.txt).
+- `tools/`, `skills/`, `preview/index.html`, `assets/bookmark-kept/tokens.mjs`, `examples/character-scene/` HTML, JavaScript, Python and render requirements, `examples/signal-field/` HTML, JavaScript, JSX, Python and documentation, `native/`, `models/`, `.github/`, `package.json`, repository documentation, and configuration: **MIT**, © 2026 KFLCHI001. See [full MIT text](LICENSE-MIT.txt).
 - `preview/vendor/lottie.min.js`: upstream **MIT** under its [separate notice](preview/vendor/LICENSE.md).
 
 The [asset manifest](ASSET-MANIFEST.md) records provenance and intended meaning. No product logo, screenshot, private text, third-party source image, or downloaded community animation is included.

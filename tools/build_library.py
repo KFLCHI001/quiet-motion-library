@@ -117,12 +117,13 @@ def svg_markup(title, body, size=240):
 
 
 def main():
+    # newline="" writes LF on every OS, so exports stay byte-identical in CI.
     for asset in ASSETS:
         directory = ROOT / "assets" / asset["id"]
         directory.mkdir(parents=True, exist_ok=True)
-        (directory / "source.svg").write_text(svg_markup(asset["title"] + " — editable layered source", asset["svg"], asset.get("size", 240)), encoding="utf-8")
-        (directory / "still.svg").write_text(svg_markup(asset["title"], asset["svg"], asset.get("size", 240)), encoding="utf-8")
-        (directory / "motion.lottie.json").write_text(json.dumps(document(asset["title"], asset["layers"], asset.get("size", 240), asset.get("out", OUT), asset.get("token_bindings")), separators=(",", ":")) + "\n", encoding="utf-8")
+        (directory / "source.svg").write_text(svg_markup(asset["title"] + " — editable layered source", asset["svg"], asset.get("size", 240)), encoding="utf-8", newline="")
+        (directory / "still.svg").write_text(svg_markup(asset["title"], asset["svg"], asset.get("size", 240)), encoding="utf-8", newline="")
+        (directory / "motion.lottie.json").write_text(json.dumps(document(asset["title"], asset["layers"], asset.get("size", 240), asset.get("out", OUT), asset.get("token_bindings")), separators=(",", ":")) + "\n", encoding="utf-8", newline="")
 
 
 if __name__ == "__main__":

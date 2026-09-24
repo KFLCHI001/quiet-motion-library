@@ -1,0 +1,13 @@
+{
+  "name": "quiet-motion-library",
+  "private": true,
+  "type": "module",
+  "license": "SEE LICENSE IN README.md",
+  "scripts": {
+    "build": "python tools/build_library.py && node examples/signal-field/build.mjs && python examples/signal-field/package_dotlottie.py",
+    "test": "python tools/validate.py && node tools/token-bind.test.mjs && node examples/character-scene/motion.test.mjs && node examples/signal-field/model.test.mjs && node native/motion-policy.test.mjs && node models/models.test.mjs && node tools/check-native.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.12"
+  }
+}
