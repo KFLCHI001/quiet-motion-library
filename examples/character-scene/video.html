@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rendered scene loop test</title>
+  <style>
+    :root { color-scheme: light; font: 16px/1.5 system-ui, sans-serif; color: #273b37; background: #eee9df; }
+    * { box-sizing: border-box; }
+    body { width: min(800px, calc(100% - 36px)); margin: 30px auto 54px; }
+    h1 { margin: 12px 0 8px; line-height: 1.15; }
+    p { max-width: 680px; color: #52615b; }
+    video, img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; margin-top: 20px; background: #f7f4eb; border-radius: 16px; }
+    [hidden] { display: none; }
+    label { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; }
+    input { width: 18px; height: 18px; accent-color: #2f6352; }
+    a { color: #2f6352; }
+    a:focus-visible, input:focus-visible, video:focus-visible { outline: 3px solid #9b6f31; outline-offset: 3px; }
+  </style>
+</head>
+<body>
+  <a href="index.html">← Interactive character scene</a>
+  <h1>Rendered scene loop test</h1>
+  <p>Press Play to test the optional six-second MP4. Playback and looping start only when you choose them. The poster is the complete still fallback.</p>
+  <video id="scene-video" controls playsinline preload="metadata" poster="scene-poster.png" aria-label="A small leaf-haired character in a layered landscape">
+    <source src="scene-loop.mp4" type="video/mp4">
+  </video>
+  <img id="poster-fallback" src="scene-poster.png" alt="A small leaf-haired character in a layered landscape" hidden>
+  <label><input id="loop" type="checkbox" disabled> Repeat when the video ends</label>
+  <p id="status" role="status">Poster shown. Video has not started.</p>
+  <p>This is a browser test of a locally rendered file. Check the target app's decoder, lifecycle, battery use, memory, and device looping separately before integrating it.</p>
+  <script>
+    const video = document.querySelector('#scene-video');
+    const fallback = document.querySelector('#poster-fallback');
+    const loop = document.querySelector('#loop');
+    const status = document.querySelector('#status');
+    let failed = false;
+    loop.addEventListener('change', () => { video.loop = loop.checked; });
+    video.addEventListener('loadedmetadata', () => { loop.disabled = false; status.textContent = `Ready to play ${video.duration.toFixed(1)} seconds.`; });
+    video.addEventListener('playing', () => { status.textContent = 'Playing.'; });
+    video.addEventListener('pause', () => { if (!video.ended && !failed) status.textContent = 'Paused.'; });
+    video.addEventListener('ended', () => { status.textContent = 'Ended. Poster remains available.'; });
+    video.addEventListener('error', () => {
+      failed = true;
+      video.hidden = true;
+      fallback.hidden = false;
+      loop.disabled = true;
+      status.textContent = 'Video could not play here. Static poster shown.';
+    });
+  </script>
+</body>
+</html>

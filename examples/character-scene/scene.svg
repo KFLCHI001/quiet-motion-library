@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="scene" viewBox="0 0 720 480" role="img" aria-labelledby="scene-title scene-desc">
+        <title id="scene-title">A small leaf-haired character in a quiet landscape</title>
+        <desc id="scene-desc">Layered hills and a character whose gaze, posture, expression and arm respond to the selected state.</desc>
+        <defs>
+          <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#e7f0e6"/><stop offset="1" stop-color="#fbf3de"/></linearGradient>
+          <linearGradient id="body-fill" x2=".8" y2="1"><stop stop-color="#76a58c"/><stop offset="1" stop-color="#3e796b"/></linearGradient>
+          <linearGradient id="face-fill" x2=".8" y2="1"><stop stop-color="#f9dca8"/><stop offset="1" stop-color="#dfa275"/></linearGradient>
+        </defs>
+        <rect width="720" height="480" fill="url(#sky)"/>
+        <g class="far"><circle cx="565" cy="91" r="48" fill="#fff7d5" opacity=".8"/><path d="M-20 321 Q105 185 213 295 Q314 215 414 286 Q564 169 740 291 V520 H-20Z" fill="#cfddca"/></g>
+        <g class="mid"><path d="M-20 367 Q112 295 225 350 Q346 262 463 344 Q590 269 740 350 V520 H-20Z" fill="#9fbd9f"/><path d="M110 360 Q173 315 231 354" fill="none" stroke="#81ab86" stroke-width="7" opacity=".65"/></g>
+        <g class="near"><path d="M-20 433 Q121 392 254 420 Q395 380 545 420 Q625 390 740 426 V520 H-20Z" fill="#6e9b7d"/><path d="M45 450 q12 -30 24 -4 m30 7 q8 -24 20 -1 m482 -10 q10 -25 23 -1" fill="none" stroke="#b6d1a0" stroke-width="5" stroke-linecap="round" opacity=".7"/></g>
+        <g id="character">
+          <ellipse cx="362" cy="408" rx="91" ry="14" fill="#345b51" opacity=".17"/>
+          <g id="body">
+            <path d="M322 319 Q300 354 286 383 Q294 399 312 390 L344 361Z" fill="#447766"/>
+            <g id="arm-right"><path d="M405 326 Q444 335 453 373 Q450 389 435 386 Q421 359 398 357Z" fill="#467d69"/><circle cx="448" cy="382" r="12" fill="#e4ad79"/></g>
+            <path d="M303 406 Q307 327 358 311 Q418 320 428 406Z" fill="url(#body-fill)" stroke="#3e7567" stroke-width="3"/>
+            <path d="M337 388 Q360 398 384 388" fill="none" stroke="#93bc9f" stroke-width="6" stroke-linecap="round"/>
+          </g>
+          <g id="head">
+            <g id="leaf-left"><path d="M342 194 Q303 144 308 116 Q350 126 371 177Z" fill="#4e8467" stroke="#397052" stroke-width="3"/></g>
+            <g id="leaf-right"><path d="M369 185 Q394 130 439 129 Q429 169 387 196Z" fill="#79a77e" stroke="#548d6b" stroke-width="3"/></g>
+            <ellipse cx="363" cy="261" rx="104" ry="100" fill="url(#face-fill)" stroke="#b77b5e" stroke-width="3"/>
+            <path d="M274 289 Q359 324 450 285" fill="none" stroke="#f7e3b7" stroke-width="8" opacity=".48"/>
+            <ellipse cx="292" cy="282" rx="18" ry="10" fill="#d98e79" opacity=".35"/>
+            <ellipse cx="430" cy="282" rx="18" ry="10" fill="#d98e79" opacity=".35"/>
+            <g id="eye-left"><ellipse cx="329" cy="252" rx="25" ry="31" fill="#fff9e8"/><g class="pupil"><circle cx="335" cy="257" r="13" fill="#35534d"/><circle cx="340" cy="250" r="4" fill="#fff"/></g></g>
+            <g id="eye-right"><ellipse cx="394" cy="252" rx="25" ry="31" fill="#fff9e8"/><g class="pupil"><circle cx="400" cy="257" r="13" fill="#35534d"/><circle cx="405" cy="250" r="4" fill="#fff"/></g></g>
+            <path d="M326 217 Q337 209 347 215 M383 215 Q395 209 405 217" fill="none" stroke="#755342" stroke-width="5" stroke-linecap="round"/>
+            <path id="mouth-smile" d="M347 297 Q362 312 379 297" fill="none" stroke="#874f4a" stroke-width="5" stroke-linecap="round"/>
+            <ellipse id="mouth-listen" cx="363" cy="302" rx="7" ry="10" fill="#874f4a" opacity="0"/>
+          </g>
+        </g>
+      </svg>

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Character motion lab</title>
+  <style>
+    :root { color-scheme: light; font: 16px/1.45 system-ui, sans-serif; background: #eee9df; color: #273b37; }
+    * { box-sizing: border-box; }
+    body { max-width: 1050px; margin: 0 auto; padding: 28px 18px 48px; }
+    h1 { margin: 0 0 6px; font-size: clamp(1.55rem, 3vw, 2.2rem); letter-spacing: -.035em; }
+    p { margin: 0; }
+    .intro { max-width: 690px; color: #52615b; }
+    .layout { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(250px, .8fr); gap: 18px; margin-top: 22px; }
+    .stage { position: relative; overflow: hidden; border: 1px solid #d3d3c3; border-radius: 22px; background: #f7f4eb; box-shadow: 0 16px 38px #33494116; touch-action: pan-y; }
+    .stage svg, .stage .scene-still { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; }
+    .stage-label { position: absolute; left: 16px; bottom: 14px; padding: 6px 10px; border-radius: 999px; background: #ffffffd9; color: #315047; font-size: .78rem; font-weight: 650; }
+    .controls { display: flex; flex-direction: column; gap: 12px; border: 1px solid #d3d3c3; border-radius: 22px; background: #fcfaf4; padding: 18px; }
+    .controls h2 { margin: 0; font-size: 1.08rem; }
+    .controls p { color: #52615b; font-size: .88rem; }
+    .buttons { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    button { min-height: 42px; border: 1px solid #c9d1c7; border-radius: 10px; background: white; color: #29483d; font: inherit; font-size: .86rem; cursor: pointer; }
+    button:hover:not(:disabled) { background: #f1f5ef; }
+    button:disabled { cursor: default; opacity: .55; }
+    button[aria-pressed="true"] { background: #2f6352; border-color: #2f6352; color: white; }
+    button:focus-visible, input:focus-visible { outline: 3px solid #9b6f31; outline-offset: 2px; }
+    label { display: flex; align-items: center; gap: 8px; font-size: .9rem; }
+    input { width: 18px; height: 18px; accent-color: #2f6352; }
+    .status { margin-top: auto; border-top: 1px solid #e4e4d8; padding-top: 12px; color: #40564d; font-size: .84rem; }
+    .notes { margin-top: 17px; max-width: 850px; color: #52615b; font-size: .9rem; }
+    .notes strong { color: #31483e; }
+
+    .stage .far, .stage .mid, .stage .near, .stage #head, .stage #body, .stage #eye-left, .stage #eye-right, .stage .pupil,
+    .stage #mouth-smile, .stage #mouth-listen, .stage #arm-right, .stage #leaf-left, .stage #leaf-right { transform-box: fill-box; transform-origin: center; }
+    .stage .far, .stage .mid, .stage .near { transition: transform 180ms ease-out; }
+    .stage[data-mode="look"] .far { transform: translate(var(--far-x, 0px), var(--far-y, 0px)); }
+    .stage[data-mode="look"] .mid { transform: translate(var(--mid-x, 0px), var(--mid-y, 0px)); }
+    .stage[data-mode="look"] .near { transform: translate(var(--near-x, 0px), var(--near-y, 0px)); }
+    .stage #head, .stage #body, .stage #eye-left, .stage #eye-right, .stage .pupil, .stage #mouth-smile, .stage #mouth-listen, .stage #arm-right, .stage #leaf-left, .stage #leaf-right {
+      transition: transform 360ms cubic-bezier(.23,1,.32,1), opacity 180ms ease-out;
+    }
+    .stage #body { animation: breathe 3.8s ease-in-out infinite alternate; }
+    .stage #leaf-left, .stage #leaf-right { animation: leaf-drift 4.8s ease-in-out infinite alternate; }
+    .stage[data-mode="look"] #head { transform: translate(12px, -3px) rotate(4deg) scaleX(.91); }
+    .stage[data-mode="look"] #eye-left { transform: translateX(11px) scaleX(.72); }
+    .stage[data-mode="look"] #eye-right { transform: translateX(8px); }
+    .stage[data-mode="look"] #mouth-smile { transform: translateX(9px); }
+    .stage[data-mode="look"] .pupil { transform: translateX(var(--gaze-x, 4px)) translateY(var(--gaze-y, 0px)); }
+    .stage[data-mode="listen"] #head { transform: translate(-5px, -3px) rotate(-6deg); }
+    .stage[data-mode="listen"] .pupil { transform: translateY(-5px); }
+    .stage[data-mode="listen"] #mouth-smile { opacity: 0; }
+    .stage #mouth-listen { opacity: 0; }
+    .stage[data-mode="listen"] #mouth-listen { opacity: 1; }
+    .stage[data-mode="rest"] #head { transform: translateY(4px) rotate(-2deg); }
+    .stage[data-mode="rest"] #eye-left, .stage[data-mode="rest"] #eye-right { transform: scaleY(.18); }
+    .stage[data-mode="confirm"] #head { transform: translateY(-5px) rotate(3deg); }
+    .stage[data-mode="confirm"] #mouth-smile { transform: scale(1.13); }
+    .stage[data-mode="confirm"].pulse #arm-right { animation: wave 650ms cubic-bezier(.23,1,.32,1) 1; }
+    @keyframes breathe { from { transform: scaleY(1); } to { transform: scaleY(1.02); } }
+    @keyframes leaf-drift { from { transform: rotate(-2deg); } to { transform: rotate(3deg); } }
+    @keyframes wave { 0%, 100% { transform: rotate(0); } 35% { transform: rotate(-22deg); } 65% { transform: rotate(13deg); } }
+    html[data-page-hidden="true"] .stage * { animation-play-state: paused !important; }
+    html[data-reduce="true"] .stage *, html[data-reduce="true"] .stage *::before { animation: none !important; transition: none !important; }
+    html[data-reduce="true"] .stage .far, html[data-reduce="true"] .stage .mid, html[data-reduce="true"] .stage .near,
+    html[data-reduce="true"] .stage #head, html[data-reduce="true"] .stage #body, html[data-reduce="true"] .stage #arm-right,
+    html[data-reduce="true"] .stage #leaf-left, html[data-reduce="true"] .stage #leaf-right { transform: none !important; }
+    @media (prefers-reduced-motion: reduce) {
+      .stage * { animation: none !important; transition: none !important; }
+      .stage .far, .stage .mid, .stage .near, .stage #head, .stage #body, .stage #arm-right, .stage #leaf-left, .stage #leaf-right { transform: none !important; }
+    }
+    @media (max-width: 760px) { .layout { grid-template-columns: 1fr; } .stage svg, .stage .scene-still { aspect-ratio: 3 / 2; } }
+  </style>
+</head>
+<body>
+  <h1>Character motion lab</h1>
+  <p class="intro">An original layered SVG rig inside a small depth scene. Change the character’s state; move a pointer across the scene in Look mode. This is a browser proof of the source-art workflow, not an app render.</p>
+  <main class="layout">
+    <section class="stage" data-mode="idle">
+      <div id="scene-slot"><img class="scene-still" src="scene.svg" alt="A small leaf-haired character in a quiet landscape"></div>
+      <span class="stage-label">Original layered SVG · editable parts</span>
+    </section>
+    <section class="controls" aria-labelledby="controls-title">
+      <h2 id="controls-title">States</h2>
+      <p>Each state changes a few named layers. The landscape moves only in Look mode.</p>
+      <div class="buttons" role="group" aria-label="Character state">
+        <button type="button" data-set-mode="idle" aria-pressed="true" disabled>Idle</button>
+        <button type="button" data-set-mode="look" aria-pressed="false" disabled>Look</button>
+        <button type="button" data-set-mode="listen" aria-pressed="false" disabled>Listen</button>
+        <button type="button" data-set-mode="confirm" aria-pressed="false" disabled>Confirm</button>
+        <button type="button" data-set-mode="rest" aria-pressed="false" disabled>Rest</button>
+      </div>
+      <label><input id="reduce" type="checkbox"> Reduce Motion preview</label>
+      <p class="status" id="status" role="status">Static illustration shown. The interactive rig is loading.</p>
+    </section>
+  </main>
+  <p class="notes"><strong>What this tests:</strong> layered art, state changes, an interruptible head turn, independent gaze, ambient motion, pointer-linked depth, a one-shot reaction, and a still presentation. The source stays readable and editable; native performance and parity remain untested. <a href="video.html">Test the optional rendered loop</a>.</p>
+  <script src="motion.js" defer></script>
+</body>
+</html>
