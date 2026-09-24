@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-labelledby="title">
+<title id="title">Review the draft — editable layered source</title>
+<g id="source-frame" fill="none" stroke="#A25A44" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M53 78V58h20"/><path d="M167 58h20v20"/><path d="M53 163v20h20"/><path d="M167 183h20v-20"/></g>
+<g id="review-paper" aria-label="draft paper"><rect x="70" y="48" width="100" height="144" rx="12" fill="#F7F1E8" stroke="#D9CFC2" stroke-width="2"/></g>
+<g id="draft-lines" fill="none" stroke="#6E6178" stroke-width="4" stroke-linecap="round"><path d="M88 93h64"/><path d="M88 111h48"/><path d="M88 129h64"/><path d="M88 147h37"/></g>
+<g id="review-corner" aria-label="review tab"><path d="M145 48 L158 48 L170 60 L170 73 L145 73 Z" fill="#F1DDD2"/><path d="M145 48 L145 73 L170 73" fill="none" stroke="#A25A44" stroke-width="2" stroke-linejoin="round"/></g>
+</svg>

@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quiet Motion Library — first studies</title>
+  <style>
+    :root { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #292621; background: #edeae5; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 320px; }
+    .shell { width: min(1120px, calc(100% - 40px)); margin: 0 auto; padding: 58px 0 76px; }
+    .eyebrow { margin: 0 0 12px; color: #70695f; font-size: 12px; font-weight: 750; letter-spacing: .16em; text-transform: uppercase; }
+    h1 { max-width: 700px; margin: 0; font-family: Georgia, serif; font-size: clamp(38px, 5vw, 64px); font-weight: 400; letter-spacing: -.045em; line-height: 1.06; }
+    .intro { max-width: 650px; margin: 18px 0 0; color: #655f57; font-size: 16px; line-height: 1.58; }
+    .toolbar { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; margin: 36px 0 20px; }
+    .toolbar p { margin: 0; color: #655f57; font-size: 13px; }
+    .toggle { display: inline-flex; align-items: center; gap: 9px; padding: 10px 14px; border: 1px solid #cfcac0; border-radius: 999px; background: #f9f7f2; font-size: 13px; cursor: pointer; }
+    .toggle input { accent-color: #4f6d58; width: 16px; height: 16px; margin: 0; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .study { overflow: hidden; border: 1px solid #d6d0c6; border-radius: 26px; background: #fffefa; }
+    .stage { min-height: 350px; padding: 26px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+    .study.bookmark-study .stage { background: var(--bookmark-bg, #f5eee1); color: var(--bookmark-text, #2c2823); }
+    .bookmark-study .brand { color: var(--bookmark-muted, #716758); }
+    .study.review-study .stage { background: #f7f1e8; }
+    .brand { margin: 0; color: #716758; font-size: 11px; font-weight: 750; letter-spacing: .17em; text-transform: uppercase; }
+    .review-study .brand { color: #6e6178; }
+    .stage h2 { margin: 10px 0 0; font-family: Georgia, serif; font-size: 25px; font-weight: 400; letter-spacing: -.025em; }
+    .review-study .stage h2 { color: #2b1f33; }
+    .visual { position: relative; width: 196px; height: 196px; margin-top: 5px; display: grid; place-items: center; }
+    .motion, .still { width: 100%; height: 100%; }
+    .still { display: none; object-fit: contain; }
+    .visual.is-still .motion { display: none; }
+    .visual.is-still .still { display: block; }
+    .bookmark-study .visual { width: 22px; height: 22px; margin: 0; flex: none; }
+    .placement { width: min(100%, 320px); margin-top: 27px; text-align: left; }
+    .mock-action { min-height: 52px; display: flex; align-items: center; justify-content: center; border-radius: 15px; background: var(--bookmark-accent, #506e59); color: var(--bookmark-on-accent, #fff); font-size: 15px; font-weight: 700; }
+    .inline-result { min-height: 37px; display: flex; align-items: center; gap: 8px; padding: 8px 2px 0; color: var(--bookmark-accent, #506e59); font-size: 14px; font-weight: 650; }
+    .token-choice { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-top: 16px; color: #665f57; font-size: 12px; }
+    .token-choice select { min-height: 35px; padding: 0 8px; border: 1px solid #cfcac0; border-radius: 8px; background: #fffefa; font: inherit; color: #292621; }
+    .body { padding: 24px 26px 26px; }
+    .purpose { margin: 0 0 7px; font-size: 16px; font-weight: 700; }
+    .description { min-height: 66px; margin: 0; color: #665f57; font-size: 14px; line-height: 1.55; }
+    .actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 21px; }
+    button { min-height: 44px; padding: 0 17px; border: 1px solid #514a43; border-radius: 999px; background: #514a43; color: white; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+    button.secondary { color: #514a43; background: transparent; }
+    button:focus-visible, a:focus-visible, .toggle:focus-within { outline: 3px solid #a25a44; outline-offset: 3px; }
+    @media (hover: hover) and (pointer: fine) { button:hover { opacity: .86; } }
+    .status { margin: 16px 0 0; min-height: 18px; color: #625b54; font-size: 12px; }
+    .downloads { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 18px; border-top: 1px solid #e5dfd6; padding-top: 16px; }
+    a { color: #4e6752; text-underline-offset: 3px; font-size: 12px; font-weight: 700; }
+    .review-study a { color: #8e4c3b; }
+    .foot { max-width: 760px; margin-top: 30px; color: #70695f; font-size: 13px; line-height: 1.6; }
+    @media (max-width: 760px) { .shell { padding-top: 36px; } .grid { grid-template-columns: 1fr; } .stage { min-height: 320px; } }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <p class="eyebrow">Open vector motion studies</p>
+    <h1>Two moments worth a pause.</h1>
+    <p class="intro">Original vector studies for small state changes. Each plays once, then holds its settled frame. The source, Lottie JSON, and static fallback sit together.</p>
+    <div class="toolbar">
+      <p>Browser playback preview</p>
+      <label class="toggle"><input id="reduce" type="checkbox"> Preview Reduce Motion</label>
+    </div>
+    <div class="grid">
+      <section class="study bookmark-study" data-id="bookmark-kept" aria-labelledby="bookmark-title">
+        <div class="stage">
+          <p class="brand">Example 01 / saved item</p>
+          <h2 id="bookmark-title">An inline acknowledgment</h2>
+          <div class="placement">
+            <div class="mock-action" aria-hidden="true">Save item</div>
+            <div class="inline-result">
+              <div class="visual is-still">
+                <div class="motion" aria-hidden="true"></div>
+                <img class="still" src="../assets/bookmark-kept/still.svg" alt="">
+              </div>
+              <span>Saved</span>
+            </div>
+          </div>
+        </div>
+        <div class="body">
+          <p class="purpose">After a save succeeds</p>
+          <p class="description">A single 22 px bookmark settles beside the host interface's saved-state text. It adds no card, announcement, or private content.</p>
+          <label class="token-choice">Sample colors <select id="bookmark-theme"><option value="light">Light green</option><option value="dark">Dark violet</option></select></label>
+          <div class="actions"><button class="replay" type="button">Replay once</button><button class="show-still secondary" type="button">Settled state</button></div>
+          <p class="status" role="status" aria-live="polite"></p>
+          <div class="downloads"><a href="../assets/bookmark-kept/motion.lottie.json">Lottie JSON</a><a href="../assets/bookmark-kept/source.svg">Layered SVG</a><a href="../assets/bookmark-kept/still.svg">Static SVG</a><a href="../assets/bookmark-kept/tokens.mjs">Token binder</a></div>
+        </div>
+      </section>
+      <section class="study review-study" data-id="review-draft" aria-labelledby="review-study-title">
+        <div class="stage">
+          <p class="brand">Example 02 / draft review</p>
+          <h2 id="review-study-title">Review the draft</h2>
+          <div class="visual is-still">
+            <div class="motion" aria-hidden="true"></div>
+            <img class="still" src="../assets/review-draft/still.svg" alt="A draft paper within a scan frame">
+          </div>
+        </div>
+        <div class="body">
+          <p class="purpose">When a draft is ready to review</p>
+          <p class="description">The frame gives way to a paper draft. It signals a review step; it does not imply that the contents were checked or saved.</p>
+          <div class="actions"><button class="replay" type="button">Replay once</button><button class="show-still secondary" type="button">Settled state</button></div>
+          <p class="status" role="status" aria-live="polite"></p>
+          <div class="downloads"><a href="../assets/review-draft/motion.lottie.json">Lottie JSON</a><a href="../assets/review-draft/source.svg">Layered SVG</a><a href="../assets/review-draft/still.svg">Static SVG</a></div>
+        </div>
+      </section>
+    </div>
+    <p class="foot">These are adaptable examples. Keep the host interface's text and actions in place. Reduce Motion and player failure show the complete static frame.</p>
+  </main>
+  <script src="vendor/lottie.min.js"></script>
+  <script type="module">
+    import { bindBookmarkLottie, bindBookmarkStill } from '../assets/bookmark-kept/tokens.mjs';
+    const systemReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const manualReduced = document.getElementById('reduce');
+    const tokenSamples = {
+      light: { accent: '#506E59', line: '#E4DAC6', background: '#F5EEE1', text: '#2C2823', muted: '#6E6559', onAccent: '#FFFFFF' },
+      dark: { accent: '#B6A8E8', line: '#51483B', background: '#211E1A', text: '#FBF6EC', muted: '#D9CFBE', onAccent: '#211E1A' },
+    };
+    const tokenChoice = document.getElementById('bookmark-theme');
+    const studies = [...document.querySelectorAll('.study')].map(node => ({
+      node,
+      visual: node.querySelector('.visual'),
+      stage: node.querySelector('.motion'),
+      status: node.querySelector('.status'),
+      animation: null,
+      raw: null,
+    }));
+    const bookmarkStudy = studies.find(study => study.node.dataset.id === 'bookmark-kept');
+    let bookmarkStillSource = null;
+    const reduced = () => systemReduced.matches || manualReduced.checked;
+    function selectedTokens() { return tokenSamples[tokenChoice.value]; }
+    function bindStill() {
+      if (!bookmarkStillSource) return;
+      const tokens = selectedTokens();
+      const svg = bindBookmarkStill(bookmarkStillSource, tokens);
+      bookmarkStudy.node.querySelector('.still').src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+      bookmarkStudy.node.style.setProperty('--bookmark-bg', tokens.background);
+      bookmarkStudy.node.style.setProperty('--bookmark-text', tokens.text);
+      bookmarkStudy.node.style.setProperty('--bookmark-muted', tokens.muted);
+      bookmarkStudy.node.style.setProperty('--bookmark-accent', tokens.accent);
+      bookmarkStudy.node.style.setProperty('--bookmark-on-accent', tokens.onAccent);
+    }
+    function still(study, message) {
+      study.animation?.stop();
+      study.visual.classList.add('is-still');
+      study.status.textContent = message;
+    }
+    function play(study) {
+      if (reduced()) return still(study, 'Settled state. Reduce Motion is active.');
+      if (!study.animation) return still(study, 'Settled state. Player unavailable.');
+      study.visual.classList.remove('is-still');
+      study.animation.goToAndPlay(0, true);
+      study.status.textContent = 'Playing once.';
+    }
+    function syncReduced() {
+      for (const study of studies) {
+        if (reduced()) still(study, 'Settled state. Reduce Motion is active.');
+        else play(study);
+      }
+    }
+    manualReduced.addEventListener('change', syncReduced);
+    systemReduced.addEventListener('change', syncReduced);
+    function mount(study, animationData, previewPlay = true) {
+      study.animation?.destroy();
+      study.stage.replaceChildren();
+      study.animation = lottie.loadAnimation({container: study.stage, renderer: 'svg', loop: false, autoplay: false, animationData});
+      study.animation.addEventListener('DOMLoaded', () => {
+        if (previewPlay && !reduced()) play(study);
+        else still(study, reduced() ? 'Settled state. Reduce Motion is active.' : 'Settled state shown.');
+      });
+      study.animation.addEventListener('complete', () => { study.status.textContent = 'Complete. Settled frame held.'; });
+      study.animation.addEventListener('data_failed', () => still(study, 'Settled state. Player unavailable.'));
+    }
+    tokenChoice.addEventListener('change', () => {
+      bindStill();
+      if (bookmarkStudy.raw && window.lottie) mount(bookmarkStudy, bindBookmarkLottie(bookmarkStudy.raw, selectedTokens()), false);
+    });
+    for (const study of studies) {
+      study.node.querySelector('.replay').addEventListener('click', () => play(study));
+      study.node.querySelector('.show-still').addEventListener('click', () => still(study, 'Settled state shown.'));
+      const requests = [fetch(`../assets/${study.node.dataset.id}/motion.lottie.json`).then(response => { if (!response.ok) throw new Error(`Asset ${response.status}`); return response.json(); })];
+      if (study === bookmarkStudy) requests.push(fetch('../assets/bookmark-kept/still.svg').then(response => { if (!response.ok) throw new Error(`Still ${response.status}`); return response.text(); }));
+      Promise.all(requests)
+        .then(([data, staticSvg]) => {
+          if (!window.lottie) throw new Error('Lottie player unavailable');
+          study.raw = data;
+          if (study === bookmarkStudy) {
+            bookmarkStillSource = staticSvg;
+            bindStill();
+            mount(study, bindBookmarkLottie(data, selectedTokens()));
+          } else mount(study, data);
+        })
+        .catch(error => { console.error(error); still(study, 'Settled state. Player unavailable.'); });
+    }
+    window.previewDiagnostics = () => studies.map(study => ({id: study.node.dataset.id, loaded: Boolean(study.animation), still: study.visual.classList.contains('is-still'), status: study.status.textContent}));
+  </script>
+</body>
+</html>
