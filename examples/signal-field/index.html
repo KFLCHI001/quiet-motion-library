@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Signal field · Quiet Motion Library</title>
+  <style>
+    :root{font-family:system-ui,sans-serif;color:#263d39;background:#f5f0e7}*{box-sizing:border-box}body{margin:0}
+    main{max-width:1200px;margin:auto;min-height:100vh;display:grid;grid-template-columns:minmax(260px,390px) 1fr;align-items:center;gap:4vw;padding:clamp(20px,5vw,64px)}
+    h1{font:normal clamp(38px,5vw,72px)/1.04 Georgia,serif;letter-spacing:-.04em;margin:.2em 0}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.16em;font-weight:700}.note{line-height:1.5;max-width:34ch}
+    label{display:block;font-weight:700;margin:34px 0 12px}input{width:100%;accent-color:#9a4e3b;touch-action:none}.number{font:normal 52px/1 Georgia,serif;margin:14px 0}.stage{position:relative;aspect-ratio:13/8;background:#f5f0e7;border:1px solid #263d3940;border-radius:18px;overflow:hidden}.stage svg{display:block;width:100%;height:100%}
+    .stage img{display:block;width:100%;height:100%}[hidden]{display:none!important}.tile{transition:fill 110ms ease}@media(prefers-reduced-motion:reduce){.tile{transition:none}}@media(max-width:720px){main{grid-template-columns:1fr}.stage{order:-1}}
+  </style>
+</head>
+<body>
+<main>
+  <section>
+    <div class="eyebrow">Interaction study / 01</div>
+    <h1>Tune the<br>signal.</h1>
+    <p class="note">A single value changes the height, tilt, and color of an original field of separate tiles. It makes no claim about what that value means in your app.</p>
+    <label for="level">Signal level</label>
+    <input id="level" type="range" min="0" max="100" value="50" aria-describedby="level-value">
+    <p id="level-value" class="number" aria-live="off">50</p>
+    <p class="note">The control works with touch, keyboard, and assistive technology. In a product, use the app’s own named input and status text.</p>
+  </section>
+  <div class="stage" aria-hidden="true"><img id="fallback" src="still.svg" alt=""><svg id="field" viewBox="0 0 520 320" hidden></svg></div>
+</main>
+<script type="module" src="preview.mjs"></script>
+</body>
+</html>

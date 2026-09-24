@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 320" role="img" aria-label="Separate angled tiles along a horizontal line">
+  <rect width="520" height="320" fill="#f5f0e7"/>
+  <rect x="39" y="150" width="442" height="2" fill="#263d39"/>
+  <rect x="58.250" y="97.712" width="23.500" height="129.423" rx="3" fill="#af6039" transform="rotate(0.435 70.000 162.423)"/>
+  <rect x="95.250" y="100.701" width="25.500" height="135.402" rx="3" fill="#b06139" transform="rotate(0.991 108.000 168.402)"/>
+  <rect x="132.250" y="98.991" width="27.500" height="131.983" rx="3" fill="#b16239" transform="rotate(0.673 146.000 164.983)"/>
+  <rect x="172.250" y="93.333" width="23.500" height="120.666" rx="3" fill="#b26339" transform="rotate(-0.380 184.000 153.666)"/>
+  <rect x="209.250" y="86.211" width="25.500" height="106.423" rx="3" fill="#b36439" transform="rotate(-1.705 222.000 139.423)"/>
+  <rect x="246.250" y="80.753" width="27.500" height="95.506" rx="3" fill="#b46439" transform="rotate(-2.720 260.000 128.506)"/>
+  <rect x="286.250" y="79.356" width="23.500" height="92.711" rx="3" fill="#b56539" transform="rotate(-2.980 298.000 125.711)"/>
+  <rect x="323.250" y="82.632" width="25.500" height="99.265" rx="3" fill="#b56639" transform="rotate(-2.371 336.000 132.265)"/>
+  <rect x="360.250" y="89.145" width="27.500" height="112.289" rx="3" fill="#b66738" transform="rotate(-1.159 374.000 145.289)"/>
+  <rect x="400.250" y="96.033" width="23.500" height="126.065" rx="3" fill="#b76838" transform="rotate(0.122 412.000 159.065)"/>
+  <rect x="437.250" y="100.271" width="25.500" height="134.543" rx="3" fill="#b86838" transform="rotate(0.911 450.000 167.543)"/>
+</svg>

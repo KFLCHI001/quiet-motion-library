@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Signal field Lottie companion</title>
+<style>body{font:16px system-ui,sans-serif;color:#263d39;background:#f5f0e7;max-width:650px;margin:40px auto;padding:20px}#player{aspect-ratio:13/8;border:1px solid #263d3940}label{display:block;margin:20px 0 8px}input{width:100%;accent-color:#9a4e3b}</style></head>
+<body><h1>Host-scrubbed companion</h1><p>The host owns the number. This timeline approximates the direct geometry model between three sampled states.</p><div id="player" aria-hidden="true"></div><label for="value">Signal level <output id="number">50</output></label><input id="value" type="range" min="0" max="100" value="50"><p id="status" role="status">Loading local player…</p>
+<script src="../../preview/vendor/lottie.min.js"></script><script>
+const input=document.querySelector('#value'),number=document.querySelector('#number'),status=document.querySelector('#status');
+fetch('./signal-field.json').then(response=>{if(!response.ok)throw Error('Asset unavailable');return response.json()}).then(data=>{
+  const player=lottie.loadAnimation({container:document.querySelector('#player'),renderer:'svg',loop:false,autoplay:false,animationData:data});
+  const seek=()=>{number.value=input.value;player.goToAndStop(Math.round(Number(input.value)*1.2),true)};
+  player.addEventListener('DOMLoaded',()=>{status.textContent='Ready';seek()});
+  input.addEventListener('input',seek);
+}).catch(()=>{status.textContent='Animation unavailable; use still.svg or the direct model.'});
+</script></body></html>
