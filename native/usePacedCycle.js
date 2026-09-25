@@ -1,8 +1,11 @@
 // Drive a paced cycle from one UI-thread frame clock. `level` (0–1) feeds animated
 // styles; `onCue(segment)` runs on the JS thread at each segment start, e.g. for haptics.
-// Requires react-native-reanimated 3+. Pass `active=false` to stop both at once.
+// Requires react-native-reanimated 4, which depends on react-native-worklets.
+// On Reanimated 3, see native/README.md for the two-line runOnJS fallback.
+// Pass `active=false` to stop both at once.
 import { useEffect } from 'react';
-import { runOnJS, useFrameCallback, useSharedValue } from 'react-native-reanimated';
+import { useFrameCallback, useSharedValue } from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 import { pacedEvents, pacedPhase } from '../models/paced-cycle.js';
 
 export function usePacedCycle({ active, pattern, onCue }) {
@@ -14,7 +17,7 @@ export function usePacedCycle({ active, pattern, onCue }) {
     elapsed.value = next;
     level.value = pacedPhase(next, pattern).level;
     const events = pacedEvents(previous, next, pattern, 1);
-    if (events.length && onCue) runOnJS(onCue)(events[0].segment);
+    if (events.length && onCue) scheduleOnRN(onCue, events[0].segment);
   }, false);
   useEffect(() => {
     // Restarting begins a fresh cycle at the empty state with an inhale cue.

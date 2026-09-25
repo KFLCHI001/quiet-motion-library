@@ -50,3 +50,17 @@ Still open: native development-build and device runs of every adapter and Lottie
 - `native/usePacedCycle.js` computes both the level and the cues in one `useFrameCallback`. Under Reanimated 4.5.1's worklet plugin, `paced-cycle.js` compiled to 3 worklets and `stage-step.js` to 3. A missing `'worklet'` on `pacedEvents` was caught and fixed before commit. It would have failed on the UI thread.
 - `motionPolicy` gained `quiet` (removes ambient and `celebrate`, keeps `tween`) and `celebrate`. Tests passed.
 - Browser behaviour was measured in a private consuming app, which uses these models. In real-time headless Edge, cue events coincided with ring minima and maxima (0.850 and 1.600) at 8, 4,017 and 8,001 ms. Native and device runs have not been done.
+
+## Paced-cycle hook: `scheduleOnRN` for Reanimated 4
+
+Checked on 25 September 2026 on Windows 11, Node 24.15.0.
+
+- **Why.** Reanimated 4.5.1 marks `runOnJS` as deprecated in `lib/typescript/workletFunctions.d.ts` and points to its 3.x migration guide. `react-native-worklets` 0.10.1 exports `scheduleOnRN(fun, ...args)`. `native/usePacedCycle.js` now imports `scheduleOnRN` from `react-native-worklets` and calls `scheduleOnRN(onCue, segment)` inside the frame callback.
+- **Why no optional import.** Metro's default config sets `allowOptionalDependencies: false`, and Expo's Metro config in the checked app doesn't override it. A `try/catch` `require` would therefore still fail to bundle without the package. `native/README.md` gives Reanimated 3 users a two-line `runOnJS` fallback instead.
+- **Checks.**
+  - `npm test` passed. `tools/check-native.mjs` now marks `react-native-worklets` external and bundled all five React Native entries with Metro-style extensions.
+  - Babel with `babel-preset-expo` (from the `expo` package) and `react-native-worklets/plugin`, from a private Expo SDK 57 app checkout (Reanimated 4.5.1, worklets 0.10.1):
+    - the updated hook compiled to 1 worklet with no remaining `runOnJS` reference;
+    - the README's Reanimated 3 fallback, applied to the same file, compiled to 1 worklet and no longer imports `react-native-worklets`;
+    - `models/paced-cycle.js` and `models/stage-step.js` still compiled to 3 worklets each.
+- **Scope.** Source-verified only. No development build, device run, frame-rate check or haptic-timing measurement of this hook has been done in this repository.

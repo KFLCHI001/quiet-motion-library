@@ -16,7 +16,7 @@ await build({
   outdir: 'out',
   jsx: 'automatic',
   resolveExtensions: ['.js', '.jsx', '.json'], // Expo's default Metro set; no .mjs
-  external: ['react', 'react/jsx-runtime', 'react-native', 'react-native-reanimated'],
+  external: ['react', 'react/jsx-runtime', 'react-native', 'react-native-reanimated', 'react-native-worklets'],
   logLevel: 'error',
 });
 console.log(`native sources: PASS (${entries.length} entries bundle with Metro-style extensions)`);
