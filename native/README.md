@@ -1,6 +1,6 @@
 # Native adapters
 
-React Native sources for apps that already install `react-native-reanimated` 3 or later. They add no animation runtime, SVG library, or Lottie player.
+React Native sources for apps that already install `react-native-reanimated` 3 or later (`usePacedCycle.js` targets Reanimated 4; see below). They add no animation runtime, SVG library, or Lottie player.
 
 | File | Job |
 | --- | --- |
@@ -8,8 +8,23 @@ React Native sources for apps that already install `react-native-reanimated` 3 o
 | `SignalFieldReanimated.jsx` | The signal field driven by a `SharedValue` in 0–1, computed per tile on the UI thread from `examples/signal-field/model.js`. |
 | `useMotionPolicy.js` | Combines Reduce Motion and `AppState` into `{ foreground, ambient, tween }`. Ambient loops run only in the foreground with motion allowed. |
 | `motion-policy.js` | The pure decision behind the hook, tested in Node. |
+| `usePacedCycle.js` | One `useFrameCallback` computes the breathing `level` and the segment cues from `models/paced-cycle.js`, so visuals and haptics share a clock. Cues reach the JS thread through `scheduleOnRN`. |
 
 All visuals are decorative (`accessible={false}`). The host keeps the label, value, announcement, haptics, and persistence. Pass colors from the host theme; do not hard-code the sample palette.
+
+## Reanimated 3
+
+Reanimated 4 deprecates `runOnJS` in favour of `scheduleOnRN` from `react-native-worklets`, which Reanimated 4 already depends on. `usePacedCycle.js` uses `scheduleOnRN`. A try/catch optional import is not used because Expo's Metro config leaves `allowOptionalDependencies` off, so a missing package would break the bundle.
+
+On Reanimated 3, keep `runOnJS` by changing two lines in `usePacedCycle.js`:
+
+```js
+import { runOnJS, useFrameCallback, useSharedValue } from 'react-native-reanimated';
+// ...inside the frame callback:
+if (events.length && onCue) runOnJS(onCue)(events[0].segment);
+```
+
+Then remove the `react-native-worklets` import. The other adapters don't cross threads and work on both versions.
 
 ## What has been checked
 
